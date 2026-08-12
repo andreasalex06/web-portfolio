@@ -347,13 +347,13 @@ function App() {
               return (
                 <motion.div key={service.title} variants={fadeUp}>
                   <Card
-                    className={`h-full overflow-hidden border-white/10 ${
+                    className={`flex h-full flex-col overflow-hidden border-white/10 ${
                       service.featured
                         ? 'bg-orange-500 text-white'
                         : 'bg-white/10 text-white'
                     }`}
                   >
-                    <CardHeader>
+                    <CardHeader className="flex-1">
                       <div className="flex items-center justify-between">
                         <CardTitle>{service.title}</CardTitle>
                         <Icon size={22} />
@@ -366,7 +366,7 @@ function App() {
                         {service.description}
                       </CardDescription>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="mt-auto">
                       <div className="rounded-lg bg-white/92 p-3 text-neutral-950">
                         <button
                           type="button"
