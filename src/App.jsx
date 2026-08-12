@@ -263,9 +263,9 @@ function App() {
           initial={{ opacity: 0, y: 32, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="relative mx-auto grid min-h-[560px] max-w-6xl items-center justify-items-center px-1 py-8 sm:px-3 sm:py-10 lg:grid-cols-[0.88fr_1.12fr] lg:px-6"
+          className="relative mx-auto grid min-h-[560px] max-w-6xl items-center justify-items-center px-1 py-8 sm:px-3 sm:py-10 min-[800px]:grid-cols-[0.88fr_1.12fr] min-[1000px]:px-8"
         >
-          <div className="relative z-10 mx-auto max-w-xl text-center lg:mx-0 lg:justify-self-start lg:text-left">
+          <div className="relative z-10 mx-auto max-w-xl text-center min-[800px]:mx-0 min-[800px]:justify-self-start min-[800px]:text-left">
             <p className="mb-4 text-xs font-bold uppercase tracking-[0.28em] text-orange-500">
               Fullstack Web Developer
             </p>
@@ -275,13 +275,13 @@ function App() {
               <span className="text-neutral-950">Andreas Alex</span>
               <span className="text-orange-500">!</span>
             </h1>
-            <p className="mx-auto mt-5 max-w-lg text-sm leading-7 text-muted-foreground sm:text-base lg:mx-0">
+            <p className="mx-auto mt-5 max-w-lg text-sm leading-7 text-muted-foreground sm:text-base min-[800px]:mx-0">
               Junior fullstack web developer focused on React.js, Express.js,
               PostgreSQL, Prisma ORM, REST API, authentication, and responsive
               dashboard workflows.
             </p>
 
-            <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
+            <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row min-[800px]:justify-start">
               <a href="#about">
                 <Button className="w-full rounded-md bg-orange-500 hover:bg-orange-600 sm:w-auto">
                   About Me
@@ -305,7 +305,7 @@ function App() {
             </a>
           </div>
 
-          <div className="relative mx-auto mt-10 aspect-[1.05/1] w-full max-w-[340px] sm:max-w-[430px] lg:mt-0 lg:max-w-[520px]">
+          <div className="relative mx-auto mt-10 aspect-[1.05/1] w-full max-w-[340px] sm:max-w-[430px] min-[800px]:mt-0 lg:max-w-[520px]">
             <div className="absolute inset-2 rounded-full border border-orange-200/80"></div>
             <div className="absolute inset-10 rounded-full border border-orange-200/70"></div>
             <span className="absolute right-5 top-8 h-3 w-3 rounded-full bg-orange-500 shadow-lg shadow-orange-500/40"></span>
@@ -320,7 +320,7 @@ function App() {
         </motion.div>
       </section>
 
-      <section id="service" className="mx-auto max-w-6xl scroll-mt-24 px-5 pb-20">
+      <section id="service" className="mx-auto max-w-6xl scroll-mt-24 px-5 pb-20 min-[1000px]:px-8">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -367,10 +367,10 @@ function App() {
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="mt-auto">
-                      <div className="rounded-lg bg-white/92 p-3 text-neutral-950">
+                      <div className="flex h-full min-h-[205px] flex-col rounded-lg bg-white/92 p-3 text-neutral-950">
                         <button
                           type="button"
-                          className="mb-3 block w-full overflow-hidden rounded-md border border-neutral-200 bg-neutral-50 text-left transition hover:border-orange-300 hover:shadow-md hover:shadow-orange-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
+                          className="mb-3 block w-full shrink-0 overflow-hidden rounded-md border border-neutral-200 bg-neutral-50 text-left transition hover:border-orange-300 hover:shadow-md hover:shadow-orange-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
                           aria-label={`Open ${service.title} image`}
                           onClick={() => setSelectedService(service)}
                         >
@@ -382,12 +382,12 @@ function App() {
                             />
                           </div>
                         </button>
-                        <div className="flex items-center justify-between gap-3">
-                          <div className="flex min-w-0 flex-wrap gap-1.5">
+                        <div className="mt-auto flex min-h-9 items-center justify-between gap-3">
+                          <div className="flex min-w-0 flex-nowrap gap-1.5 overflow-hidden">
                             {service.preview.map((item) => (
                               <span
                                 key={item}
-                                className="rounded-md bg-neutral-100 px-2 py-1 text-[10px] font-semibold text-neutral-700"
+                                className="shrink-0 rounded-md bg-neutral-100 px-2 py-1 text-[10px] font-semibold text-neutral-700"
                               >
                                 {item}
                               </span>
@@ -411,7 +411,7 @@ function App() {
         </motion.div>
       </section>
 
-      <section id="about" className="mx-auto max-w-6xl scroll-mt-24 px-5 pb-20">
+      <section id="about" className="mx-auto max-w-6xl scroll-mt-24 px-5 pb-20 min-[1000px]:px-8">
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
           <motion.div
             initial="hidden"
@@ -468,7 +468,7 @@ function App() {
       </section>
 
       <section id="project" className="scroll-mt-24 bg-white py-20">
-        <div className="mx-auto max-w-6xl px-5">
+        <div className="mx-auto max-w-6xl px-5 min-[1000px]:px-8">
           <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-center">
             <div>
               <h2 className="text-4xl font-black">
@@ -584,7 +584,7 @@ function App() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-20">
+      <section className="mx-auto max-w-6xl px-5 py-20 min-[1000px]:px-8">
         <div className="rounded-2xl bg-neutral-950 p-6 text-white md:p-10">
           <div className="mb-8 text-center">
             <SectionLabel>Detail Skills</SectionLabel>
@@ -616,7 +616,7 @@ function App() {
       </section>
 
       <section id="contact" className="scroll-mt-24 pb-20">
-        <div className="mx-auto max-w-6xl px-5 text-center">
+        <div className="mx-auto max-w-6xl px-5 text-center min-[1000px]:px-8">
           <h2 className="mx-auto max-w-2xl text-4xl font-black leading-tight">
             Have an Awesome Project Idea? <span className="text-orange-500">Let's Discuss</span>
           </h2>
