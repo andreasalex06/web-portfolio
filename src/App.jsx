@@ -115,6 +115,8 @@ const clinicScreenshotSlides = Array.from(
 const testimonials = [
   'Able to build end-to-end features from UI components and API integration to database operations.',
   'Focused on responsive UI, data validation, dashboard workflows, and code structure that is easy to explain.',
+  'Comfortable turning real workflow requirements into clean CRUD flows, searchable tables, and clear user actions.',
+  'Experienced with authentication, relational data modeling, and connecting frontend state to REST API responses.',
 ]
 
 const marqueeItems = [
@@ -191,9 +193,9 @@ function App() {
   }
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <>
       <header className="sticky top-0 z-50 px-4 pb-2 pt-5">
-        <nav className="mx-auto flex h-12 max-w-6xl items-center justify-between rounded-full bg-neutral-950 px-5 text-white shadow-xl shadow-neutral-950/10">
+        <nav className="mx-auto flex h-12 max-w-7xl items-center justify-between rounded-full bg-neutral-950 px-5 text-white shadow-xl shadow-neutral-950/10">
           <a href="#home" className="flex items-center gap-2 text-sm font-semibold">
             <span className="grid h-7 w-7 place-items-center rounded-full bg-orange-500 text-xs">
               A
@@ -238,7 +240,7 @@ function App() {
           initial={false}
           animate={isMenuOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
           transition={{ duration: 0.2, ease: 'easeOut' }}
-          className={`absolute left-4 right-4 top-[calc(100%-0.25rem)] mx-auto max-w-6xl overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950 p-2 text-white shadow-xl shadow-neutral-950/10 md:hidden ${
+          className={`absolute left-4 right-4 top-[calc(100%-0.25rem)] mx-auto max-w-7xl overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950 p-2 text-white shadow-xl shadow-neutral-950/10 md:hidden ${
             isMenuOpen ? 'pointer-events-auto' : 'pointer-events-none hidden'
           }`}
         >
@@ -255,15 +257,16 @@ function App() {
         </motion.div>
       </header>
 
+      <main className="min-h-screen bg-white text-foreground">
       <section
         id="home"
-        className="relative scroll-mt-24 px-4 pb-12 pt-8 sm:pb-16 sm:pt-10"
+        className="relative scroll-mt-24 bg-white py-10"
       >
         <motion.div
           initial={{ opacity: 0, y: 32, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="relative mx-auto grid min-h-[560px] max-w-6xl items-center justify-items-center px-1 py-8 sm:px-3 sm:py-10 min-[800px]:grid-cols-2 min-[800px]:gap-8 lg:gap-12 min-[1000px]:px-8"
+          className="relative mx-auto grid min-h-[520px] max-w-7xl items-center justify-items-center px-5 min-[800px]:grid-cols-2 min-[800px]:gap-8 min-[800px]:-translate-y-4 min-[1000px]:px-24 lg:gap-12 xl:px-40"
         >
           <div className="relative z-10 mx-auto max-w-xl text-center min-[800px]:mx-0 min-[800px]:justify-self-center min-[800px]:text-left">
             <p className="mb-4 text-xs font-bold uppercase tracking-[0.28em] text-orange-500">
@@ -281,7 +284,7 @@ function App() {
               dashboard workflows.
             </p>
 
-            <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row min-[800px]:justify-start">
+            <div className="mt-7 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center min-[800px]:justify-start">
               <a href="#about">
                 <Button className="w-full rounded-md bg-orange-500 hover:bg-orange-600 sm:w-auto">
                   About Me
@@ -292,17 +295,16 @@ function App() {
                   My Projects
                 </Button>
               </a>
+              <a
+                href="https://github.com/andreasalex06"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-md px-3 text-sm font-semibold text-orange-500 underline-offset-4 transition hover:text-orange-600 hover:underline"
+              >
+                <GithubIcon className="h-6 w-6 shrink-0" />
+                GitHub
+              </a>
             </div>
-
-            <a
-              href="https://github.com/andreasalex06"
-              target="_blank"
-              rel="noreferrer"
-              className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-orange-500 underline-offset-4 hover:underline"
-            >
-              <GithubIcon className="h-4 w-4" />
-              github.com/andreasalex06
-            </a>
           </div>
 
           <div className="relative mx-auto mt-10 aspect-[1.05/1] w-full max-w-[340px] sm:max-w-[430px] min-[800px]:mt-0 min-[800px]:justify-self-center lg:max-w-[480px]">
@@ -320,14 +322,15 @@ function App() {
         </motion.div>
       </section>
 
-      <section id="service" className="mx-auto max-w-6xl scroll-mt-24 px-5 pb-20 min-[1000px]:px-8">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-80px' }}
-          variants={stagger}
-          className="rounded-2xl bg-neutral-950 p-5 text-white shadow-2xl shadow-neutral-950/20 md:p-8"
-        >
+      <section id="service" className="scroll-mt-24 bg-neutral-50 py-20">
+        <div className="mx-auto max-w-7xl px-5 min-[1000px]:px-24 xl:px-40">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={stagger}
+            className="rounded-2xl bg-neutral-950 p-5 text-white shadow-2xl shadow-neutral-950/20 md:p-8"
+          >
           <div className="mb-7 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
               <p className="text-2xl font-bold">
@@ -398,10 +401,12 @@ function App() {
               )
             })}
           </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </section>
 
-      <section id="about" className="mx-auto max-w-6xl scroll-mt-24 px-5 pb-20 min-[1000px]:px-8">
+      <section id="about" className="scroll-mt-24 bg-white py-20">
+        <div className="mx-auto max-w-7xl px-5 min-[1000px]:px-24 xl:px-40">
         <div className="space-y-10">
           <motion.div
             initial="hidden"
@@ -455,10 +460,11 @@ function App() {
             ))}
           </div>
         </div>
+        </div>
       </section>
 
-      <section id="project" className="scroll-mt-24 bg-white py-20">
-        <div className="mx-auto max-w-6xl px-5 min-[1000px]:px-8">
+      <section id="project" className="scroll-mt-24 bg-neutral-50 py-20">
+        <div className="mx-auto max-w-7xl px-5 min-[1000px]:px-24 xl:px-40">
           <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-center">
             <div>
               <h2 className="text-4xl font-black">
@@ -574,10 +580,10 @@ function App() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-20 min-[1000px]:px-8">
+      <section className="bg-white py-20">
+        <div className="mx-auto max-w-7xl px-5 min-[1000px]:px-24 xl:px-40">
         <div className="rounded-2xl bg-neutral-950 p-6 text-white md:p-10">
           <div className="mb-8 text-center">
-            <SectionLabel>Detail Skills</SectionLabel>
             <h2 className="text-3xl font-black">
               Professional <span className="text-orange-500">Highlights</span>
             </h2>
@@ -603,10 +609,12 @@ function App() {
             ))}
           </div>
         </div>
+        </div>
       </section>
+      </main>
 
-      <section id="contact" className="scroll-mt-24 bg-neutral-950 pb-20 pt-20 text-white">
-        <div className="mx-auto max-w-6xl px-5 text-center min-[1000px]:px-8">
+      <section id="contact" className="scroll-mt-24 bg-neutral-950 py-20 text-white">
+        <div className="mx-auto max-w-7xl px-5 text-center">
           <h2 className="mx-auto max-w-2xl text-4xl font-black leading-tight">
             Have an Awesome Project Idea? <span className="text-orange-500">Let's Discuss</span>
           </h2>
@@ -714,7 +722,7 @@ function App() {
           </motion.div>
         </div>
       )}
-    </main>
+    </>
   )
 }
 
