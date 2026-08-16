@@ -69,7 +69,7 @@ const experiences = [
   {
     company: 'ClinicApp',
     period: 'Fullstack Personal Project',
-    role: 'Outpatient Clinic Management System',
+    role: 'Clinic Management System',
     detail: 'Built patient, doctor, registration, queue, consultation, invoice, and patient history workflows with React, Express, Prisma, and PostgreSQL.',
   },
   {
@@ -263,9 +263,9 @@ function App() {
           initial={{ opacity: 0, y: 32, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="relative mx-auto grid min-h-[560px] max-w-6xl items-center justify-items-center px-1 py-8 sm:px-3 sm:py-10 min-[800px]:grid-cols-[0.88fr_1.12fr] min-[1000px]:px-8"
+          className="relative mx-auto grid min-h-[560px] max-w-6xl items-center justify-items-center px-1 py-8 sm:px-3 sm:py-10 min-[800px]:grid-cols-2 min-[800px]:gap-8 lg:gap-12 min-[1000px]:px-8"
         >
-          <div className="relative z-10 mx-auto max-w-xl text-center min-[800px]:mx-0 min-[800px]:justify-self-start min-[800px]:text-left">
+          <div className="relative z-10 mx-auto max-w-xl text-center min-[800px]:mx-0 min-[800px]:justify-self-center min-[800px]:text-left">
             <p className="mb-4 text-xs font-bold uppercase tracking-[0.28em] text-orange-500">
               Fullstack Web Developer
             </p>
@@ -305,7 +305,7 @@ function App() {
             </a>
           </div>
 
-          <div className="relative mx-auto mt-10 aspect-[1.05/1] w-full max-w-[340px] sm:max-w-[430px] min-[800px]:mt-0 lg:max-w-[520px]">
+          <div className="relative mx-auto mt-10 aspect-[1.05/1] w-full max-w-[340px] sm:max-w-[430px] min-[800px]:mt-0 min-[800px]:justify-self-center lg:max-w-[480px]">
             <div className="absolute inset-2 rounded-full border border-orange-200/80"></div>
             <div className="absolute inset-10 rounded-full border border-orange-200/70"></div>
             <span className="absolute right-5 top-8 h-3 w-3 rounded-full bg-orange-500 shadow-lg shadow-orange-500/40"></span>
@@ -346,28 +346,18 @@ function App() {
 
               return (
                 <motion.div key={service.title} variants={fadeUp}>
-                  <Card
-                    className={`flex h-full flex-col overflow-hidden border-white/10 ${
-                      service.featured
-                        ? 'bg-orange-500 text-white'
-                        : 'bg-white/10 text-white'
-                    }`}
-                  >
+                  <Card className="flex h-full flex-col overflow-hidden border-white/10 bg-white text-neutral-950">
                     <CardHeader className="flex-1">
                       <div className="flex items-center justify-between">
                         <CardTitle>{service.title}</CardTitle>
                         <Icon size={22} />
                       </div>
-                      <CardDescription
-                        className={
-                          service.featured ? 'text-white/82' : 'text-white/62'
-                        }
-                      >
+                      <CardDescription className="text-neutral-600">
                         {service.description}
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="mt-auto">
-                      <div className="flex h-full min-h-[205px] flex-col rounded-lg bg-white/92 p-3 text-neutral-950">
+                      <div className="flex h-full min-h-[205px] flex-col rounded-lg bg-orange-500 p-3 text-white">
                         <button
                           type="button"
                           className="mb-3 block w-full shrink-0 overflow-hidden rounded-md border border-neutral-200 bg-neutral-50 text-left transition hover:border-orange-300 hover:shadow-md hover:shadow-orange-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
@@ -387,7 +377,7 @@ function App() {
                             {service.preview.map((item) => (
                               <span
                                 key={item}
-                                className="shrink-0 rounded-md bg-neutral-100 px-2 py-1 text-[10px] font-semibold text-neutral-700"
+                                className="shrink-0 rounded-md bg-white/20 px-2 py-1 text-[10px] font-semibold text-white"
                               >
                                 {item}
                               </span>
@@ -412,7 +402,7 @@ function App() {
       </section>
 
       <section id="about" className="mx-auto max-w-6xl scroll-mt-24 px-5 pb-20 min-[1000px]:px-8">
-        <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+        <div className="space-y-10">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -575,7 +565,7 @@ function App() {
               ))}
             </div>
             <h3 className="text-xl font-bold">
-              {featuredProject.title} - Outpatient Clinic Management System
+              {featuredProject.title} - Clinic Management System
             </h3>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
               {featuredProject.description}
@@ -615,17 +605,17 @@ function App() {
         </div>
       </section>
 
-      <section id="contact" className="scroll-mt-24 pb-20">
+      <section id="contact" className="scroll-mt-24 bg-neutral-950 pb-20 pt-20 text-white">
         <div className="mx-auto max-w-6xl px-5 text-center min-[1000px]:px-8">
           <h2 className="mx-auto max-w-2xl text-4xl font-black leading-tight">
             Have an Awesome Project Idea? <span className="text-orange-500">Let's Discuss</span>
           </h2>
-          <div className="mx-auto mt-7 flex max-w-xl items-center gap-2 rounded-full border border-neutral-200 bg-white p-2 shadow-lg shadow-neutral-950/5">
-            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-orange-50 text-orange-500">
+          <div className="mx-auto mt-7 flex max-w-xl items-center gap-2 rounded-full border border-white/12 bg-white/8 p-2 shadow-lg shadow-neutral-950/20">
+            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-orange-500/16 text-orange-400">
               <Mail size={18} />
             </div>
             <input
-              className="min-w-0 flex-1 bg-transparent text-sm outline-none"
+              className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-white/45"
               placeholder="Enter your email"
               type="email"
             />
@@ -635,17 +625,17 @@ function App() {
             </Button>
           </div>
 
-          <div className="mx-auto mt-5 flex max-w-3xl flex-wrap justify-center gap-3 text-sm text-muted-foreground">
+          <div className="mx-auto mt-5 flex max-w-3xl flex-wrap justify-center gap-3 text-sm text-white/68">
             <a
               href="mailto:andreasalexyz@gmail.com"
-              className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm transition hover:text-orange-500"
+              className="inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 shadow-sm shadow-neutral-950/10 transition hover:bg-white/12 hover:text-orange-400"
             >
               <Mail size={15} />
               andreasalexyz@gmail.com
             </a>
             <a
               href="tel:08999999367"
-              className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm transition hover:text-orange-500"
+              className="inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 shadow-sm shadow-neutral-950/10 transition hover:bg-white/12 hover:text-orange-400"
             >
               <Phone size={15} />
               08999999367
@@ -654,18 +644,18 @@ function App() {
               href="https://github.com/andreasalex06"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm transition hover:text-orange-500"
+              className="inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 shadow-sm shadow-neutral-950/10 transition hover:bg-white/12 hover:text-orange-400"
             >
               <GitBranch size={15} />
               github.com/andreasalex06
             </a>
-            <span className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm">
+            <span className="inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 shadow-sm shadow-neutral-950/10">
               <MapPin size={15} />
               Bekasi 17610
             </span>
           </div>
 
-          <div className="mt-8 overflow-hidden rounded-full border-y border-orange-200 bg-orange-500 py-3 text-white">
+          <div className="mt-8 overflow-hidden rounded-full border-y border-orange-300/45 bg-orange-500 py-3 text-white">
             <motion.div
               animate={{ x: ['0%', '-25%'] }}
               transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
