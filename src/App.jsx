@@ -1,17 +1,13 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowLeft, ArrowRight, ArrowUpRight, Mail, Menu, Phone, X, Expand } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ArrowUpRight, Expand, Mail, Menu, Minus, Phone, Plus, X } from 'lucide-react'
 import { FaReact } from 'react-icons/fa6'
 import { SiDart, SiExpress, SiFlutter, SiKotlin, SiLaravel, SiPhp, SiPostgresql, SiTypescript } from 'react-icons/si'
 import profilePhoto from '@/assets/profile-andreas.webp'
 import backendImage from '@/assets/backend.webp'
-import clinic1Image from '@/assets/clinic1.webp'
-import clinic2Image from '@/assets/clinic2.webp'
-import clinic3Image from '@/assets/clinic3.webp'
-import clinic4Image from '@/assets/clinic4.webp'
-import clinic5Image from '@/assets/clinic5.webp'
-import clinic6Image from '@/assets/clinic6.webp'
-import clinic7Image from '@/assets/clinic7.webp'
+import clinicDashboardImage from '@/assets/clinic-dashboard-showcase.jpg'
+import clinicPatientImage from '@/assets/clinic-patient-showcase.jpg'
+import atriumImage from '@/assets/atrium-interior-showcase.jpg'
 import frontendImage from '@/assets/frontend.webp'
 import postgresqlImage from '@/assets/postgresql.webp'
 
@@ -25,7 +21,7 @@ const navLinks = [
 const serviceImages = [frontendImage, backendImage, postgresqlImage]
 const projectTags = ['React JS', 'Express JS', 'Prisma', 'PostgreSQL']
 
-const clinicScreenshotImages = [clinic1Image, clinic2Image, clinic3Image, clinic4Image, clinic5Image, clinic6Image, clinic7Image]
+const clinicScreenshotImages = [clinicDashboardImage, clinicPatientImage]
 
 const marqueeItems = [
   'React',
@@ -76,7 +72,23 @@ const translations = {
         { company: 'Ciputra University', period: 'August 2024 - Present', role: 'Bachelor of Informatics', detail: 'Relevant coursework: Website Design and Software Design.' },
       ],
     },
-    project: { heading: 'Selected project', index: '01 / Featured project', type: 'Clinic Management System', description: 'A personal project for managing outpatient care, from patient registration and queues to consultations and invoices. Built with role-based access, searchable records, and PDF invoices.', stackLabel: 'Project technology stack', github: 'More on GitHub', enlarge: 'Enlarge', previous: 'Previous screenshot', next: 'Next screenshot', screenshotTitles: ['ClinicApp Dashboard', 'ClinicApp Patient Workflow', 'ClinicApp Registration', 'ClinicApp Queue', 'ClinicApp Consultation', 'ClinicApp Invoice', 'ClinicApp History'] },
+    project: {
+      heading: 'Selected projects', index: '01 / Featured project', type: 'Clinic Management System',
+      description: 'A personal project for managing outpatient care, from patient registration and queues to consultations and invoices. Built with role-based access, searchable records, and PDF invoices.',
+      stackLabel: 'Project technology stack', dashboard: 'View dashboard', patientWebsite: 'View patient website', github: 'More on GitHub', enlarge: 'Enlarge', previous: 'Previous screenshot', next: 'Next screenshot',
+      screenshotTitles: ['Clinic Operations Dashboard', 'Patient Service Experience'],
+      screenshotDescriptions: [
+        'The staff workflow connects patient registration, real-time queues, consultation records, billing, pharmacy preparation, and financial reporting in one operational dashboard.',
+        'The patient workflow covers doctor selection, live queue status, payment, medicine pickup tracking, visit summaries, and assistance through the local AI chat.'
+      ]
+    },
+    interior: {
+      type: 'Interior & Renovation Company Website',
+      description: 'A company profile website for Atrium Interior Contracting. Visitors can explore renovation services, compare before-and-after interiors, browse the project collection, and contact the team through WhatsApp.',
+      demo: 'Visit website', github: 'View source code',
+      screenshotTitle: 'Atrium Interior Contracting Website',
+      screenshotDescription: 'From exploring kitchen and bathroom renovations to browsing interior projects and requesting a consultation. Scroll the screenshot to explore the full page, or enlarge it for a closer look.',
+    },
     highlights: {
       title: 'How I work',
       items: [
@@ -87,7 +99,7 @@ const translations = {
       ],
     },
     footer: { question: 'Have a project in mind?', invitation: "Let's talk.", email: 'Email me', role: 'Fullstack Web Developer', backToTop: 'Back to top' },
-    preview: { close: 'Close preview' },
+    preview: { close: 'Close preview', zoomOut: 'Zoom out', zoomIn: 'Zoom in', resetZoom: 'Reset zoom' },
   },
   id: {
     languageName: 'Bahasa Indonesia', languageSwitcher: 'Pilih bahasa', skip: 'Lewati ke konten', navLabel: 'Navigasi utama', mobileNavLabel: 'Navigasi seluler', openNav: 'Buka navigasi', closeNav: 'Tutup navigasi',
@@ -109,7 +121,23 @@ const translations = {
         { company: 'Ciputra University', period: 'Agustus 2024 - Sekarang', role: 'Sarjana Informatika', detail: 'Mata kuliah relevan: Desain Website dan Desain Perangkat Lunak.' },
       ],
     },
-    project: { heading: 'Proyek pilihan', index: '01 / Proyek unggulan', type: 'Sistem Manajemen Klinik', description: 'Proyek pribadi untuk mengelola layanan rawat jalan, dari pendaftaran dan antrean pasien hingga konsultasi dan tagihan. Dilengkapi hak akses berdasarkan peran, pencarian data, dan tagihan PDF.', stackLabel: 'Teknologi proyek', github: 'Selengkapnya di GitHub', enlarge: 'Perbesar', previous: 'Tangkapan layar sebelumnya', next: 'Tangkapan layar berikutnya', screenshotTitles: ['Dashboard ClinicApp', 'Alur Pasien ClinicApp', 'Pendaftaran ClinicApp', 'Antrean ClinicApp', 'Konsultasi ClinicApp', 'Tagihan ClinicApp', 'Riwayat ClinicApp'] },
+    project: {
+      heading: 'Proyek pilihan', index: '01 / Proyek unggulan', type: 'Sistem Manajemen Klinik',
+      description: 'Proyek pribadi untuk mengelola layanan rawat jalan, dari pendaftaran dan antrean pasien hingga konsultasi dan tagihan. Dilengkapi hak akses berdasarkan peran, pencarian data, dan tagihan PDF.',
+      stackLabel: 'Teknologi proyek', dashboard: 'Lihat dashboard', patientWebsite: 'Lihat website pasien', github: 'Selengkapnya di GitHub', enlarge: 'Perbesar', previous: 'Tangkapan layar sebelumnya', next: 'Tangkapan layar berikutnya',
+      screenshotTitles: ['Dashboard Operasional Klinik', 'Pengalaman Layanan Pasien'],
+      screenshotDescriptions: [
+        'Alur staf menghubungkan registrasi pasien, antrean realtime, pencatatan konsultasi, tagihan, penyiapan obat, dan laporan keuangan dalam satu dashboard operasional.',
+        'Alur pasien mencakup pemilihan dokter, pemantauan antrean, pembayaran, status pengambilan obat, ringkasan kunjungan, serta bantuan melalui chat AI lokal.'
+      ]
+    },
+    interior: {
+      type: 'Website Profil Perusahaan Interior & Renovasi',
+      description: 'Website profil perusahaan Atrium Interior Contracting. Pengunjung dapat menjelajahi layanan renovasi, membandingkan interior sebelum dan sesudah, melihat koleksi proyek, serta menghubungi tim melalui WhatsApp.',
+      demo: 'Lihat website', github: 'Lihat kode sumber',
+      screenshotTitle: 'Website Atrium Interior Contracting',
+      screenshotDescription: 'Dari menjelajahi layanan renovasi dapur dan kamar mandi hingga melihat proyek interior dan meminta konsultasi. Gulir screenshot untuk melihat seluruh halaman, atau perbesar untuk melihat detailnya.',
+    },
     highlights: {
       title: 'Cara saya bekerja',
       items: [
@@ -120,7 +148,7 @@ const translations = {
       ],
     },
     footer: { question: 'Ingin bekerja sama?', invitation: 'Mari berdiskusi.', email: 'Kirim email', role: 'Pengembang Web Fullstack', backToTop: 'Kembali ke atas' },
-    preview: { close: 'Tutup pratinjau' },
+    preview: { close: 'Tutup pratinjau', zoomOut: 'Perkecil', zoomIn: 'Perbesar', resetZoom: 'Atur ulang zoom' },
   },
 }
 
@@ -156,12 +184,28 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [preview, setPreview] = useState(null)
   const [activeSlide, setActiveSlide] = useState(0)
+  const [zoomLevel, setZoomLevel] = useState(1)
   const dialogRef = useRef(null)
+  const previewCanvasRef = useRef(null)
+  const panRef = useRef(null)
   const menuRef = useRef(null)
   const menuButtonRef = useRef(null)
   const copy = translations[language]
-  const screenshot = { image: clinicScreenshotImages[activeSlide], title: copy.project.screenshotTitles[activeSlide] }
-  const previewScreenshot = preview === null ? null : { image: clinicScreenshotImages[preview], title: copy.project.screenshotTitles[preview] }
+  const screenshot = {
+    image: clinicScreenshotImages[activeSlide],
+    title: copy.project.screenshotTitles[activeSlide],
+    description: copy.project.screenshotDescriptions[activeSlide]
+  }
+  const previewScreenshot = preview === null ? null : preview === 'atrium'
+    ? { image: atriumImage, title: copy.interior.screenshotTitle }
+    : { image: clinicScreenshotImages[preview], title: copy.project.screenshotTitles[preview] }
+
+  const centerPreview = useCallback(() => {
+    const canvas = previewCanvasRef.current
+    if (!canvas) return
+    canvas.scrollLeft = (canvas.scrollWidth - canvas.clientWidth) / 2
+    canvas.scrollTop = preview === 'atrium' && zoomLevel === 1 ? 0 : (canvas.scrollHeight - canvas.clientHeight) / 2
+  }, [preview, zoomLevel])
 
   useEffect(() => {
     window.localStorage.setItem('portfolio-language', language)
@@ -170,6 +214,7 @@ function App() {
 
   useEffect(() => {
     if (preview === null) return
+    setZoomLevel(1)
     const dialog = dialogRef.current
     const previousFocus = document.activeElement
     const previousOverflow = document.body.style.overflow
@@ -181,6 +226,12 @@ function App() {
       previousFocus?.focus()
     }
   }, [preview])
+
+  useEffect(() => {
+    if (preview === null) return
+    const frame = window.requestAnimationFrame(centerPreview)
+    return () => window.cancelAnimationFrame(frame)
+  }, [preview, zoomLevel, centerPreview])
 
   useEffect(() => {
     if (!isMenuOpen) return
@@ -202,6 +253,30 @@ function App() {
   }, [isMenuOpen])
 
   const changeSlide = (direction) => setActiveSlide((current) => (current + direction + clinicScreenshotImages.length) % clinicScreenshotImages.length)
+
+  const changeZoom = (amount) => setZoomLevel((current) => Math.min(3, Math.max(1, Number((current + amount).toFixed(2)))))
+
+  const resetZoom = () => setZoomLevel(1)
+
+  const startPan = (event) => {
+    if (zoomLevel <= 1 || event.button !== 0) return
+    const canvas = previewCanvasRef.current
+    panRef.current = { x: event.clientX, y: event.clientY, left: canvas.scrollLeft, top: canvas.scrollTop }
+    canvas.setPointerCapture(event.pointerId)
+  }
+
+  const movePan = (event) => {
+    if (!panRef.current) return
+    const canvas = previewCanvasRef.current
+    canvas.scrollLeft = panRef.current.left - (event.clientX - panRef.current.x)
+    canvas.scrollTop = panRef.current.top - (event.clientY - panRef.current.y)
+  }
+
+  const stopPan = (event) => {
+    if (!panRef.current) return
+    panRef.current = null
+    previewCanvasRef.current?.releasePointerCapture(event.pointerId)
+  }
 
   const languageSwitcher = <div className="language-switcher" role="group" aria-label={copy.languageSwitcher}>
     {['id', 'en'].map((option) => <button key={option} type="button" className={language === option ? 'is-active' : ''} aria-pressed={language === option} aria-label={translations[option].languageName} onClick={() => setLanguage(option)}>{option.toUpperCase()}</button>)}
@@ -300,7 +375,11 @@ function App() {
                 <ul className="project-tags" aria-label={copy.project.stackLabel}>
                   {projectTags.map((tag) => <li key={tag}>{tag}</li>)}
                 </ul>
-                <a className="text-link" href="https://github.com/andreasalex06" target="_blank" rel="noreferrer">{copy.project.github} <ArrowUpRight size={18} /></a>
+                <div className="project-links">
+                  <a className="text-link" href="https://clinic-app-frontend-pi.vercel.app/" target="_blank" rel="noreferrer">{copy.project.dashboard} <ArrowUpRight size={18} /></a>
+                  <a className="text-link" href="https://clinic-app-user-side.vercel.app/" target="_blank" rel="noreferrer">{copy.project.patientWebsite} <ArrowUpRight size={18} /></a>
+                  <a className="text-link" href="https://github.com/andreasalex06" target="_blank" rel="noreferrer">{copy.project.github} <ArrowUpRight size={18} /></a>
+                </div>
               </div>
               <figure className="project-gallery">
                 <button className="screenshot-button" aria-label={`${copy.project.enlarge} ${screenshot.title}`} onClick={() => setPreview(activeSlide)}>
@@ -310,8 +389,38 @@ function App() {
                   <span className="expand-indicator"><Expand size={18} /></span>
                 </button>
                 <figcaption className="gallery-toolbar">
-                  <div aria-live="polite"><span className="gallery-count">{String(activeSlide + 1).padStart(2, '0')} / 07</span><span>{screenshot.title}</span></div>
+                  <div aria-live="polite">
+                    <span className="gallery-count">{String(activeSlide + 1).padStart(2, '0')} / {String(clinicScreenshotImages.length).padStart(2, '0')}</span>
+                    <span className="gallery-title">{screenshot.title}</span>
+                    <span className="gallery-description">{screenshot.description}</span>
+                  </div>
                   <div className="gallery-controls"><button className="icon-button" aria-label={copy.project.previous} title={copy.project.previous} onClick={() => changeSlide(-1)}><ArrowLeft size={20} /></button><button className="icon-button" aria-label={copy.project.next} title={copy.project.next} onClick={() => changeSlide(1)}><ArrowRight size={20} /></button></div>
+                </figcaption>
+              </figure>
+            </article>
+            <article className="project-showcase interior-showcase">
+              <div className="project-details">
+                <h3>Atrium Interior Contracting</h3>
+                <p className="project-type">{copy.interior.type}</p>
+                <p className="project-description">{copy.interior.description}</p>
+                <ul className="project-tags" aria-label={copy.project.stackLabel}>
+                  {['React', 'TypeScript', 'Vite', 'Tailwind CSS'].map((tag) => <li key={tag}>{tag}</li>)}
+                </ul>
+                <div className="project-links">
+                  <a className="text-link" href="https://andreasalex06.github.io/atrium-interior-contracting/" target="_blank" rel="noreferrer">{copy.interior.demo} <ArrowUpRight size={18} /></a>
+                  <a className="text-link" href="https://github.com/andreasalex06/atrium-interior-contracting" target="_blank" rel="noreferrer">{copy.interior.github} <ArrowUpRight size={18} /></a>
+                </div>
+              </div>
+              <figure className="project-gallery">
+                <div className="interior-screenshot-scroll" tabIndex={0} role="region" aria-label={copy.interior.screenshotTitle}>
+                  <img src={atriumImage} alt={copy.interior.screenshotTitle} width="1400" height="3246" loading="lazy" />
+                </div>
+                <figcaption className="gallery-toolbar">
+                  <div>
+                    <span className="gallery-title">{copy.interior.screenshotTitle}</span>
+                    <span className="gallery-description">{copy.interior.screenshotDescription}</span>
+                  </div>
+                  <button className="icon-button" aria-label={`${copy.project.enlarge} ${copy.interior.screenshotTitle}`} title={copy.project.enlarge} onClick={() => setPreview('atrium')}><Expand size={20} /></button>
                 </figcaption>
               </figure>
             </article>
@@ -340,8 +449,22 @@ function App() {
         </footer>
       </div>
 
-      {previewScreenshot && <dialog ref={dialogRef} className="preview-dialog" aria-labelledby="preview-title" onCancel={() => setPreview(null)} onClick={(event) => { if (event.target === event.currentTarget) setPreview(null) }}>
-        <div className="preview-inner"><div className="preview-header"><h2 id="preview-title">{previewScreenshot.title}</h2><button className="icon-button" aria-label={copy.preview.close} onClick={() => setPreview(null)} autoFocus><X size={22} /></button></div><img src={previewScreenshot.image} alt={previewScreenshot.title} /></div>
+      {previewScreenshot && <dialog ref={dialogRef} className="preview-dialog" aria-labelledby="preview-title" onCancel={() => setPreview(null)}>
+        <div className="preview-inner">
+          <h2 id="preview-title" className="preview-title">{previewScreenshot.title}</h2>
+          <button className="icon-button preview-close" aria-label={copy.preview.close} title={copy.preview.close} onClick={() => setPreview(null)} autoFocus><X size={22} /></button>
+          <div ref={previewCanvasRef} className={`preview-canvas${preview === 'atrium' ? ' preview-long-page' : ''}${zoomLevel > 1 ? ' is-zoomed' : ''}`}
+            onPointerDown={startPan} onPointerMove={movePan} onPointerUp={stopPan} onPointerCancel={stopPan}>
+            <div className="preview-stage" style={{ width: `${zoomLevel * 100}%` }}>
+              <img src={previewScreenshot.image} alt={previewScreenshot.title} draggable="false" onLoad={centerPreview} />
+            </div>
+          </div>
+          <div className="preview-actions" role="group" aria-label={copy.preview.resetZoom}>
+            <button className="icon-button" aria-label={copy.preview.zoomOut} title={copy.preview.zoomOut} disabled={zoomLevel <= 1} onClick={() => changeZoom(-0.25)}><Minus size={20} /></button>
+            <button className="zoom-value" aria-label={`${copy.preview.resetZoom}: ${Math.round(zoomLevel * 100)}%`} title={copy.preview.resetZoom} onClick={resetZoom}>{Math.round(zoomLevel * 100)}%</button>
+            <button className="icon-button" aria-label={copy.preview.zoomIn} title={copy.preview.zoomIn} disabled={zoomLevel >= 3} onClick={() => changeZoom(0.25)}><Plus size={20} /></button>
+          </div>
+        </div>
       </dialog>}
     </>
   )
