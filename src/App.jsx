@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { ArrowLeft, ArrowRight, ArrowUpRight, Expand, Mail, Menu, Minus, Phone, Plus, X } from 'lucide-react'
 import { FaReact } from 'react-icons/fa6'
 import { SiDart, SiExpress, SiFlutter, SiKotlin, SiLaravel, SiPhp, SiPostgresql, SiTypescript } from 'react-icons/si'
@@ -22,6 +22,10 @@ const serviceImages = [frontendImage, backendImage, postgresqlImage]
 const projectTags = ['React JS', 'Express JS', 'Prisma', 'PostgreSQL']
 
 const clinicScreenshotImages = [clinicDashboardImage, clinicPatientImage]
+const entranceVariants = {
+  hidden: { opacity: 0.8, transform: 'translateY(12px)' },
+  visible: { opacity: 1, transform: 'translateY(0px)', transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
+}
 
 const marqueeItems = [
   'React',
@@ -55,7 +59,7 @@ const translations = {
   en: {
     languageName: 'English', languageSwitcher: 'Choose language', skip: 'Skip to content', navLabel: 'Main navigation', mobileNavLabel: 'Mobile navigation', openNav: 'Open navigation', closeNav: 'Close navigation',
     nav: { about: 'About', skills: 'Skills', experience: 'Experience', projects: 'Projects', contact: 'Contact' },
-    hero: { role: 'Fullstack Web Developer', description: "I'm a junior fullstack developer working with React, Express, and PostgreSQL. I build responsive interfaces and the APIs and databases that support them.", projects: 'My Projects', techStack: 'Technology stack' },
+    hero: { role: 'Full Stack Developer', description: "I'm a junior fullstack developer working with React, Express, and PostgreSQL. I build responsive interfaces and the APIs and databases that support them.", projects: 'My Projects', techStack: 'Technology stack' },
     skills: {
       title: 'My skills', intro: 'Technologies I use to build interfaces, APIs, and databases.', imageAlt: 'screenshot',
       items: [
@@ -98,13 +102,13 @@ const translations = {
         { title: 'Connected systems', body: 'I work with authentication, relational data, and frontend state that stays consistent with API responses.' },
       ],
     },
-    footer: { question: 'Have a project in mind?', invitation: "Let's talk.", email: 'Email me', role: 'Fullstack Web Developer', backToTop: 'Back to top' },
+    footer: { question: 'Have a project in mind?', invitation: "Let's talk.", email: 'Email me', role: 'Full Stack Developer', backToTop: 'Back to top' },
     preview: { close: 'Close preview', zoomOut: 'Zoom out', zoomIn: 'Zoom in', resetZoom: 'Reset zoom' },
   },
   id: {
     languageName: 'Bahasa Indonesia', languageSwitcher: 'Pilih bahasa', skip: 'Lewati ke konten', navLabel: 'Navigasi utama', mobileNavLabel: 'Navigasi seluler', openNav: 'Buka navigasi', closeNav: 'Tutup navigasi',
     nav: { about: 'Tentang', skills: 'Keahlian', experience: 'Pengalaman', projects: 'Proyek', contact: 'Kontak' },
-    hero: { role: 'Fullstack Web Developer', description: 'Saya junior fullstack developer yang menggunakan React, Express, dan PostgreSQL. Saya mengembangkan antarmuka responsif beserta API dan database yang mendukungnya.', projects: 'Proyek Saya', techStack: 'Teknologi yang digunakan' },
+    hero: { role: 'Full Stack Developer', description: 'Saya junior fullstack developer yang menggunakan React, Express, dan PostgreSQL. Saya mengembangkan antarmuka responsif beserta API dan database yang mendukungnya.', projects: 'Proyek Saya', techStack: 'Teknologi yang digunakan' },
     skills: {
       title: 'Keahlian saya', intro: 'Teknologi yang saya gunakan untuk mengembangkan antarmuka, API, dan database.', imageAlt: 'tangkapan layar',
       items: [
@@ -147,7 +151,7 @@ const translations = {
         { title: 'Sistem yang terhubung', body: 'Saya menerapkan autentikasi, relasi database, dan pengelolaan state frontend sesuai respons API.' },
       ],
     },
-    footer: { question: 'Ingin bekerja sama?', invitation: 'Mari berdiskusi.', email: 'Kirim email', role: 'Pengembang Web Fullstack', backToTop: 'Kembali ke atas' },
+    footer: { question: 'Ingin bekerja sama?', invitation: 'Mari berdiskusi.', email: 'Kirim email', role: 'Full Stack Developer', backToTop: 'Kembali ke atas' },
     preview: { close: 'Tutup pratinjau', zoomOut: 'Perkecil', zoomIn: 'Perbesar', resetZoom: 'Atur ulang zoom' },
   },
 }
@@ -162,24 +166,13 @@ function GithubIcon(props) {
 }
 
 
-function RevealSection({ children, ...props }) {
-  const reduceMotion = useReducedMotion()
-
-  return (
-    <motion.section
-      {...props}
-      initial={reduceMotion ? false : { opacity: 0.75, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.08 }}
-      transition={{ duration: reduceMotion ? 0 : 0.45, ease: 'easeOut' }}
-    >
-      {children}
-    </motion.section>
-  )
+function ContentSection({ children, ...props }) {
+  return <section {...props}>{children}</section>
 }
 
 function App() {
   const reduceMotion = useReducedMotion()
+  const itemEntrance = reduceMotion ? { visible: { opacity: 1, transform: 'none', transition: { duration: 0 } } } : entranceVariants
   const [language, setLanguage] = useState(() => window.localStorage.getItem('portfolio-language') === 'en' ? 'en' : 'id')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [preview, setPreview] = useState(null)
@@ -190,6 +183,18 @@ function App() {
   const panRef = useRef(null)
   const menuRef = useRef(null)
   const menuButtonRef = useRef(null)
+  const experienceSectionRef = useRef(null)
+  const { scrollYProgress: experienceProgress } = useScroll({
+    target: experienceSectionRef,
+    offset: ['start end', 'start 0.3'],
+  })
+  const experienceScale = useTransform(experienceProgress, [0, 1], [0.9, 1])
+  const closingSurfaceRef = useRef(null)
+  const { scrollYProgress: footerProgress } = useScroll({
+    target: closingSurfaceRef,
+    offset: ['end 1.6', 'end end'],
+  })
+  const footerScale = useTransform(footerProgress, [0, 1], [0.9, 1])
   const copy = translations[language]
   const screenshot = {
     image: clinicScreenshotImages[activeSlide],
@@ -297,29 +302,31 @@ function App() {
             {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
-        {isMenuOpen && <motion.nav ref={menuRef} id="mobile-navigation" className="mobile-nav page-container" aria-label={copy.mobileNavLabel}
+        <AnimatePresence initial={false}>
+        {isMenuOpen && <motion.nav key="mobile-navigation" ref={menuRef} id="mobile-navigation" className="mobile-nav page-container" aria-label={copy.mobileNavLabel}
           initial={reduceMotion ? false : { opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: reduceMotion ? 0 : -8 }}
           transition={{ duration: reduceMotion ? 0 : 0.18, ease: 'easeOut' }}>
           {navLinks.map((item) => <a key={item.href} href={item.href} onClick={() => setIsMenuOpen(false)}>{copy.nav[item.key]}</a>)}
           <a href="#contact" onClick={() => setIsMenuOpen(false)}>{copy.nav.contact}</a>
         </motion.nav>}
+        </AnimatePresence>
       </header>
 
       <main id="main">
         <section id="home" className="hero">
           <div className="page-container hero-layout">
             <motion.div className="hero-copy"
-              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: reduceMotion ? 0 : 0.5, ease: 'easeOut' }}>
-              <p className="eyebrow">{copy.hero.role}</p>
-              <h1>Andreas Alex<span>.</span></h1>
-              <p className="hero-description">{copy.hero.description}</p>
-              <div className="hero-actions">
+              initial={reduceMotion ? false : 'hidden'} animate="visible"
+              variants={{ visible: { transition: { staggerChildren: reduceMotion ? 0 : 0.07 } } }}>
+              <motion.p variants={itemEntrance} className="eyebrow">{copy.hero.role}</motion.p>
+              <motion.h1 variants={itemEntrance}>Andreas Alex<span>.</span></motion.h1>
+              <motion.p variants={itemEntrance} className="hero-description">{copy.hero.description}</motion.p>
+              <motion.div variants={itemEntrance} className="hero-actions">
                 <a className="action primary-action" href="#project">{copy.hero.projects} <ArrowRight size={18} /></a>
                 <a className="github-link" href="https://github.com/andreasalex06" target="_blank" rel="noreferrer"><GithubIcon className="github-icon" /> GitHub</a>
-              </div>
+              </motion.div>
             </motion.div>
             <motion.figure className="portrait"
               initial={reduceMotion ? false : { opacity: 0, y: 12 }}
@@ -335,7 +342,7 @@ function App() {
           </div>
         </section>
 
-        <RevealSection id="service" className="section section-muted">
+        <ContentSection id="service" className="section section-muted">
           <div className="page-container">
             <div className="section-heading"><div><h2>{copy.skills.title}</h2></div><p>{copy.skills.intro}</p></div>
             <div className="skills-grid">
@@ -348,10 +355,10 @@ function App() {
               })}
             </div>
           </div>
-        </RevealSection>
+        </ContentSection>
 
-        <RevealSection id="about" className="section section-dark section-dark-left">
-          <div className="page-container">
+        <ContentSection ref={experienceSectionRef} id="about" className="section section-dark section-dark-left">
+          <motion.div className="page-container" style={{ scale: reduceMotion ? 1 : experienceScale, transformOrigin: 'center top' }}>
             <div className="section-heading"><div><h2>{copy.experience.title}</h2></div></div>
             <div className="experience-list">
               {copy.experience.items.map((experience, index) => <article className="experience-row" key={experience.company}>
@@ -360,14 +367,14 @@ function App() {
                 <div className="experience-detail"><h4>{experience.role}</h4><p>{experience.detail}</p></div>
               </article>)}
             </div>
-          </div>
-        </RevealSection>
+          </motion.div>
+        </ContentSection>
 
-        <RevealSection id="project" className="section section-muted">
+        <ContentSection id="project" className="section section-muted">
           <div className="page-container">
             <div className="section-heading project-section-heading"><div><h2>{copy.project.heading}</h2></div></div>
-            <article className="project-showcase">
-              <div className="project-details">
+            <motion.article className="project-showcase" initial={reduceMotion ? false : 'hidden'} whileInView="visible" viewport={{ once: true, amount: 0.12 }} variants={{ visible: { transition: { staggerChildren: reduceMotion ? 0 : 0.1 } } }}>
+              <motion.div variants={itemEntrance} className="project-details">
                 <p className="project-index">{copy.project.index}</p>
                 <h3>ClinicApp</h3>
                 <p className="project-type">{copy.project.type}</p>
@@ -380,8 +387,8 @@ function App() {
                   <a className="text-link" href="https://clinic-app-user-side.vercel.app/" target="_blank" rel="noreferrer">{copy.project.patientWebsite} <ArrowUpRight size={18} /></a>
                   <a className="text-link" href="https://github.com/andreasalex06" target="_blank" rel="noreferrer">{copy.project.github} <ArrowUpRight size={18} /></a>
                 </div>
-              </div>
-              <figure className="project-gallery">
+              </motion.div>
+              <motion.figure variants={itemEntrance} className="project-gallery">
                 <button className="screenshot-button" aria-label={`${copy.project.enlarge} ${screenshot.title}`} onClick={() => setPreview(activeSlide)}>
                   <motion.img key={screenshot.image} src={screenshot.image} alt={screenshot.title} loading="lazy"
                     initial={reduceMotion ? false : { opacity: 0.6 }} animate={{ opacity: 1 }}
@@ -396,10 +403,10 @@ function App() {
                   </div>
                   <div className="gallery-controls"><button className="icon-button" aria-label={copy.project.previous} title={copy.project.previous} onClick={() => changeSlide(-1)}><ArrowLeft size={20} /></button><button className="icon-button" aria-label={copy.project.next} title={copy.project.next} onClick={() => changeSlide(1)}><ArrowRight size={20} /></button></div>
                 </figcaption>
-              </figure>
-            </article>
-            <article className="project-showcase interior-showcase">
-              <div className="project-details">
+              </motion.figure>
+            </motion.article>
+            <motion.article className="project-showcase interior-showcase" initial={reduceMotion ? false : 'hidden'} whileInView="visible" viewport={{ once: true, amount: 0.12 }} variants={{ visible: { transition: { staggerChildren: reduceMotion ? 0 : 0.1 } } }}>
+              <motion.div variants={itemEntrance} className="project-details">
                 <h3>Atrium Interior Contracting</h3>
                 <p className="project-type">{copy.interior.type}</p>
                 <p className="project-description">{copy.interior.description}</p>
@@ -410,8 +417,8 @@ function App() {
                   <a className="text-link" href="https://andreasalex06.github.io/atrium-interior-contracting/" target="_blank" rel="noreferrer">{copy.interior.demo} <ArrowUpRight size={18} /></a>
                   <a className="text-link" href="https://github.com/andreasalex06/atrium-interior-contracting" target="_blank" rel="noreferrer">{copy.interior.github} <ArrowUpRight size={18} /></a>
                 </div>
-              </div>
-              <figure className="project-gallery">
+              </motion.div>
+              <motion.figure variants={itemEntrance} className="project-gallery">
                 <div className="interior-screenshot-scroll" tabIndex={0} role="region" aria-label={copy.interior.screenshotTitle}>
                   <img src={atriumImage} alt={copy.interior.screenshotTitle} width="1400" height="3246" loading="lazy" />
                 </div>
@@ -422,22 +429,23 @@ function App() {
                   </div>
                   <button className="icon-button" aria-label={`${copy.project.enlarge} ${copy.interior.screenshotTitle}`} title={copy.project.enlarge} onClick={() => setPreview('atrium')}><Expand size={20} /></button>
                 </figcaption>
-              </figure>
-            </article>
+              </motion.figure>
+            </motion.article>
           </div>
-        </RevealSection>
+        </ContentSection>
 
       </main>
 
-      <div className="closing-surface">
-        <RevealSection className="section closing-highlights">
+      <div ref={closingSurfaceRef} className="closing-surface">
+        <ContentSection className="section closing-highlights">
           <div className="page-container">
             <div className="section-heading"><div><h2>{copy.highlights.title}</h2></div></div>
             <div className="highlights-grid">{copy.highlights.items.map((item, index) => <article className="highlight" key={item.title}><span className="row-number">0{index + 1}</span><div><h3>{item.title}</h3><p>{item.body}</p></div></article>)}</div>
           </div>
-        </RevealSection>
+        </ContentSection>
 
-        <footer id="contact" className="site-footer">
+        <div id="contact" aria-hidden="true" />
+        <motion.footer className="site-footer" style={{ scale: reduceMotion ? 1 : footerScale }}>
           <div className="page-container footer-content">
             <div className="footer-heading"><h2>{copy.footer.question}<br /><span>{copy.footer.invitation}</span></h2><a className="action footer-action" href="mailto:andreasalexyz@gmail.com">{copy.footer.email} <ArrowUpRight size={19} /></a></div>
             <div className="contact-links"><a href="mailto:andreasalexyz@gmail.com"><Mail size={18} />andreasalexyz@gmail.com</a><a href="tel:+628999999367"><Phone size={18} />08999999367</a><a href="https://github.com/andreasalex06" target="_blank" rel="noreferrer"><GithubIcon className="footer-github" />GitHub</a></div>
@@ -446,7 +454,7 @@ function App() {
             <div className="marquee-track">{[0, 1, 2, 3].map((group) => <div className="marquee-group" key={group} aria-hidden={group > 0 ? 'true' : undefined}>{marqueeItems.map((item) => <span key={item}>{item}<span className="marquee-separator" aria-hidden="true">/</span></span>)}</div>)}</div>
           </div>
           <div className="page-container footer-bottom"><a className="wordmark" href="#home">Andreas Alex<span>.</span></a><a className="text-link" href="#home">{copy.footer.backToTop} <ArrowUpRight size={16} /></a></div>
-        </footer>
+        </motion.footer>
       </div>
 
       {previewScreenshot && <dialog ref={dialogRef} className="preview-dialog" aria-labelledby="preview-title" onCancel={() => setPreview(null)}>
