@@ -170,8 +170,24 @@ function ContentSection({ children, ...props }) {
   return <section {...props}>{children}</section>
 }
 
+function useMediaQuery(query) {
+  const [matches, setMatches] = useState(() => window.matchMedia(query).matches)
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(query)
+    const updateMatch = () => setMatches(mediaQuery.matches)
+
+    updateMatch()
+    mediaQuery.addEventListener('change', updateMatch)
+    return () => mediaQuery.removeEventListener('change', updateMatch)
+  }, [query])
+
+  return matches
+}
+
 function App() {
   const reduceMotion = useReducedMotion()
+  const isDesktop = useMediaQuery('(min-width: 900px)')
   const itemEntrance = reduceMotion ? { visible: { opacity: 1, transform: 'none', transition: { duration: 0 } } } : entranceVariants
   const [language, setLanguage] = useState(() => window.localStorage.getItem('portfolio-language') === 'en' ? 'en' : 'id')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -373,7 +389,7 @@ function App() {
         <ContentSection id="project" className="section section-muted">
           <div className="page-container">
             <div className="section-heading project-section-heading"><div><h2>{copy.project.heading}</h2></div></div>
-            <motion.article className="project-showcase" initial={reduceMotion ? false : 'hidden'} whileInView="visible" viewport={{ once: false, amount: 0.12 }} variants={reduceMotion ? { visible: { opacity: 1 } } : { hidden: { opacity: 0, x: -48 }, visible: { opacity: 1, x: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 } } }}>
+            <motion.article className="project-showcase" initial={reduceMotion ? false : 'hidden'} whileInView="visible" viewport={{ once: false, amount: 0 }} variants={reduceMotion ? { visible: { opacity: 1 } } : { hidden: { opacity: 0, x: -48 }, visible: { opacity: 1, x: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 } } }}>
               <motion.div variants={itemEntrance} className="project-details">
                 <p className="project-index">{copy.project.index}</p>
                 <h3>ClinicApp</h3>
@@ -405,7 +421,7 @@ function App() {
                 </figcaption>
               </motion.figure>
             </motion.article>
-            <motion.article className="project-showcase interior-showcase" initial={reduceMotion ? false : 'hidden'} whileInView="visible" viewport={{ once: false, amount: 0.12 }} variants={reduceMotion ? { visible: { opacity: 1 } } : { hidden: { opacity: 0, x: 48 }, visible: { opacity: 1, x: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 } } }}>
+            <motion.article className="project-showcase interior-showcase" initial={reduceMotion ? false : 'hidden'} whileInView="visible" viewport={{ once: false, amount: 0 }} variants={reduceMotion ? { visible: { opacity: 1 } } : { hidden: { opacity: 0, x: 48 }, visible: { opacity: 1, x: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 } } }}>
               <motion.div variants={itemEntrance} className="project-details">
                 <h3>Atrium Interior Contracting</h3>
                 <p className="project-type">{copy.interior.type}</p>
@@ -445,7 +461,7 @@ function App() {
         </ContentSection>
 
         <div id="contact" aria-hidden="true" />
-        <motion.footer className="site-footer" style={{ scale: reduceMotion ? 1 : footerScale }}>
+        <motion.footer className="site-footer" style={{ scale: reduceMotion || !isDesktop ? 1 : footerScale }}>
           <div className="page-container footer-content">
             <div className="footer-heading"><h2>{copy.footer.question}<br /><span>{copy.footer.invitation}</span></h2><a className="action footer-action" href="mailto:andreasalexyz@gmail.com">{copy.footer.email} <ArrowUpRight size={19} /></a></div>
             <div className="contact-links"><a href="mailto:andreasalexyz@gmail.com"><Mail size={18} />andreasalexyz@gmail.com</a><a href="tel:+628999999367"><Phone size={18} />08999999367</a><a href="https://github.com/andreasalex06" target="_blank" rel="noreferrer"><GithubIcon className="footer-github" />GitHub</a></div>
