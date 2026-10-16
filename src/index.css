@@ -103,7 +103,7 @@ h1 span { color: #428475; }
 .project-showcase { display: grid; overflow: hidden; border: 1px solid #2a2a27; border-radius: 6px; background: #11110f; color: #fff; }
 .project-showcase + .project-showcase { margin-top: 36px; }
 .interior-showcase .project-details h3 { margin-top: 0; }
-.project-links { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: auto; }
+.project-links { display: flex; grid-column: 1 / -1; flex-wrap: wrap; justify-content: center; gap: 8px 24px; margin-top: 16px; padding: 12px 0 0; border-top: 1px solid #d8dad3; }
 .interior-screenshot-scroll { max-height: clamp(320px, 65vw, 560px); overflow-y: auto; scrollbar-color: #428475 #f0f0ec; }
 .interior-screenshot-scroll img { display: block; width: 100%; height: auto; }
 .interior-showcase .gallery-toolbar > div:first-child { display: block; }
@@ -116,13 +116,13 @@ h1 span { color: #428475; }
 .project-description { margin-top: 18px; max-width: 54ch; color: #d7d7d1; font-size: .9375rem; line-height: 1.8; }
 .project-tags { display: flex; flex-wrap: wrap; gap: 10px 18px; width: 100%; margin-block: 22px 16px; padding: 16px 0; border-block: 1px solid #363632; color: #d7d7d1; list-style: none; }
 .project-tags li { font-size: .75rem; font-weight: 500; }
-.project-details .text-link { margin-top: auto; color: #9accc1; }
-.project-details .text-link:hover { color: #fff; }
+.project-links .text-link { color: #32675d; }
+.project-links .text-link:hover { color: #1f4d45; }
 .project-gallery { display: flex; min-width: 0; flex-direction: column; background: #fff; color: #202220; }
 .screenshot-button { position: relative; display: block; width: 100%; overflow: hidden; border: 0; background: #fff; padding: 0; }
 .screenshot-button img { width: 100%; height: auto; object-fit: contain; background: #fff; }
 .expand-indicator { position: absolute; right: 10px; bottom: 10px; display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid #81877b; background: #fff; border-radius: 4px; }
-.gallery-toolbar { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 16px; border-top: 1px solid #d8dad3; }
+.gallery-toolbar { display: grid; grid-template-columns: minmax(0,1fr) auto; column-gap: 16px; padding: 16px; border-top: 1px solid #d8dad3; }
 .gallery-toolbar > div:first-child { display: grid; min-width: 0; grid-template-columns: auto minmax(0,1fr); column-gap: 14px; row-gap: 4px; font-size: .75rem; line-height: 1.5; }
 .gallery-count { color: #62675e; font-variant-numeric: tabular-nums; }
 .gallery-title { font-weight: 600; color: #202220; }

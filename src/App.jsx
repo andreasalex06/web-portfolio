@@ -373,7 +373,7 @@ function App() {
         <ContentSection id="project" className="section section-muted">
           <div className="page-container">
             <div className="section-heading project-section-heading"><div><h2>{copy.project.heading}</h2></div></div>
-            <motion.article className="project-showcase" initial={reduceMotion ? false : 'hidden'} whileInView="visible" viewport={{ once: true, amount: 0.12 }} variants={{ visible: { transition: { staggerChildren: reduceMotion ? 0 : 0.1 } } }}>
+            <motion.article className="project-showcase" initial={reduceMotion ? false : 'hidden'} whileInView="visible" viewport={{ once: false, amount: 0.12 }} variants={reduceMotion ? { visible: { opacity: 1 } } : { hidden: { opacity: 0, x: -48 }, visible: { opacity: 1, x: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 } } }}>
               <motion.div variants={itemEntrance} className="project-details">
                 <p className="project-index">{copy.project.index}</p>
                 <h3>ClinicApp</h3>
@@ -382,11 +382,6 @@ function App() {
                 <ul className="project-tags" aria-label={copy.project.stackLabel}>
                   {projectTags.map((tag) => <li key={tag}>{tag}</li>)}
                 </ul>
-                <div className="project-links">
-                  <a className="text-link" href="https://clinic-app-frontend-pi.vercel.app/" target="_blank" rel="noreferrer">{copy.project.dashboard} <ArrowUpRight size={18} /></a>
-                  <a className="text-link" href="https://clinic-app-user-side.vercel.app/" target="_blank" rel="noreferrer">{copy.project.patientWebsite} <ArrowUpRight size={18} /></a>
-                  <a className="text-link" href="https://github.com/andreasalex06" target="_blank" rel="noreferrer">{copy.project.github} <ArrowUpRight size={18} /></a>
-                </div>
               </motion.div>
               <motion.figure variants={itemEntrance} className="project-gallery">
                 <button className="screenshot-button" aria-label={`${copy.project.enlarge} ${screenshot.title}`} onClick={() => setPreview(activeSlide)}>
@@ -402,10 +397,15 @@ function App() {
                     <span className="gallery-description">{screenshot.description}</span>
                   </div>
                   <div className="gallery-controls"><button className="icon-button" aria-label={copy.project.previous} title={copy.project.previous} onClick={() => changeSlide(-1)}><ArrowLeft size={20} /></button><button className="icon-button" aria-label={copy.project.next} title={copy.project.next} onClick={() => changeSlide(1)}><ArrowRight size={20} /></button></div>
+                  <motion.div variants={itemEntrance} className="project-links">
+                    <a className="text-link" href="https://clinic-app-frontend-pi.vercel.app/" target="_blank" rel="noreferrer">{copy.project.dashboard} <ArrowUpRight size={18} /></a>
+                    <a className="text-link" href="https://clinic-app-user-side.vercel.app/" target="_blank" rel="noreferrer">{copy.project.patientWebsite} <ArrowUpRight size={18} /></a>
+                    <a className="text-link" href="https://github.com/andreasalex06" target="_blank" rel="noreferrer">{copy.project.github} <ArrowUpRight size={18} /></a>
+                  </motion.div>
                 </figcaption>
               </motion.figure>
             </motion.article>
-            <motion.article className="project-showcase interior-showcase" initial={reduceMotion ? false : 'hidden'} whileInView="visible" viewport={{ once: true, amount: 0.12 }} variants={{ visible: { transition: { staggerChildren: reduceMotion ? 0 : 0.1 } } }}>
+            <motion.article className="project-showcase interior-showcase" initial={reduceMotion ? false : 'hidden'} whileInView="visible" viewport={{ once: false, amount: 0.12 }} variants={reduceMotion ? { visible: { opacity: 1 } } : { hidden: { opacity: 0, x: 48 }, visible: { opacity: 1, x: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 } } }}>
               <motion.div variants={itemEntrance} className="project-details">
                 <h3>Atrium Interior Contracting</h3>
                 <p className="project-type">{copy.interior.type}</p>
@@ -413,10 +413,6 @@ function App() {
                 <ul className="project-tags" aria-label={copy.project.stackLabel}>
                   {['React', 'TypeScript', 'Vite', 'Tailwind CSS'].map((tag) => <li key={tag}>{tag}</li>)}
                 </ul>
-                <div className="project-links">
-                  <a className="text-link" href="https://andreasalex06.github.io/atrium-interior-contracting/" target="_blank" rel="noreferrer">{copy.interior.demo} <ArrowUpRight size={18} /></a>
-                  <a className="text-link" href="https://github.com/andreasalex06/atrium-interior-contracting" target="_blank" rel="noreferrer">{copy.interior.github} <ArrowUpRight size={18} /></a>
-                </div>
               </motion.div>
               <motion.figure variants={itemEntrance} className="project-gallery">
                 <div className="interior-screenshot-scroll" tabIndex={0} role="region" aria-label={copy.interior.screenshotTitle}>
@@ -428,6 +424,10 @@ function App() {
                     <span className="gallery-description">{copy.interior.screenshotDescription}</span>
                   </div>
                   <button className="icon-button" aria-label={`${copy.project.enlarge} ${copy.interior.screenshotTitle}`} title={copy.project.enlarge} onClick={() => setPreview('atrium')}><Expand size={20} /></button>
+                  <motion.div variants={itemEntrance} className="project-links">
+                    <a className="text-link" href="https://andreasalex06.github.io/atrium-interior-contracting/" target="_blank" rel="noreferrer">{copy.interior.demo} <ArrowUpRight size={18} /></a>
+                    <a className="text-link" href="https://github.com/andreasalex06/atrium-interior-contracting" target="_blank" rel="noreferrer">{copy.interior.github} <ArrowUpRight size={18} /></a>
+                  </motion.div>
                 </figcaption>
               </motion.figure>
             </motion.article>
