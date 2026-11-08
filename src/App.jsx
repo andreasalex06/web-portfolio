@@ -1,24 +1,34 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
-import { ArrowLeft, ArrowRight, ArrowUpRight, Expand, Mail, Menu, Minus, Phone, Plus, X } from 'lucide-react'
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
+import { ArrowLeft, ArrowRight, ArrowUpRight, Code2, Smartphone, Expand, Mail, Menu, Minus, Phone, Plus, Server, X } from 'lucide-react'
 import { FaReact } from 'react-icons/fa6'
-import { SiDart, SiExpress, SiFlutter, SiKotlin, SiLaravel, SiPhp, SiPostgresql, SiTypescript } from 'react-icons/si'
+import { SiDart, SiExpress, SiFlutter, SiNextdotjs, SiCodeigniter, SiPhp, SiPostgresql, SiTypescript } from 'react-icons/si'
+import batchImage from '@/assets/batch-tracer.webp'
+import relayImage from '@/assets/relay.webp'
+import catImage from '@/assets/cat2catch.webp'
 import profilePhoto from '@/assets/profile-andreas.webp'
-import backendImage from '@/assets/backend.webp'
 import clinicDashboardImage from '@/assets/clinic-dashboard-showcase.jpg'
 import clinicPatientImage from '@/assets/clinic-patient-showcase.jpg'
 import atriumImage from '@/assets/atrium-interior-showcase.jpg'
-import frontendImage from '@/assets/frontend.webp'
-import postgresqlImage from '@/assets/postgresql.webp'
 
 const navLinks = [
   { key: 'about', href: '#home' },
   { key: 'skills', href: '#service' },
-  { key: 'experience', href: '#about' },
   { key: 'projects', href: '#project' },
 ]
 
-const serviceImages = [frontendImage, backendImage, postgresqlImage]
+const skillIcons = [Code2, Server, Smartphone]
+const additionalProjects = [
+  { id: 'batch-tracer', name: 'Batch Tracer', image: batchImage, tags: ['CodeIgniter 4', 'PHP', 'PostgreSQL'], repo: 'https://github.com/andreasalex06/batch-tracer',
+    idText: 'Simulasi pelacakan batch dengan data sintetis. Tim menelusuri stok dan pengiriman untuk mengetahui distribusi yang terdampak saat produk perlu ditarik.',
+    enText: 'A batch traceability simulation using synthetic data. Teams trace inventory and shipments to identify deliveries affected by a product recall.' },
+  { id: 'relay', name: 'Relay', image: relayImage, tags: ['Next.js', 'Hono', 'Prisma', 'PostgreSQL'],
+    idText: 'Board proyek yang menunjukkan tugas mana yang harus selesai sebelum pekerjaan lain bisa dimulai. Anggota tim mengelola tugas sesuai peran, sementara klien memantau milestone.',
+    enText: 'A project board showing which tasks must finish before others can start. Team members manage work according to their roles, while clients follow milestone progress.' },
+  { id: 'cat2catch', name: 'Cat2Catch', image: catImage, tags: ['Flutter', 'Dart'],
+    idText: 'Game mobile dengan Arena dan Rumah untuk melihat koleksi kucing. Koleksi diperbarui saat pemain kembali dari Arena. Preferensi musik dan suara tersimpan untuk sesi berikutnya.',
+    enText: 'A mobile game with an Arena and a Home for browsing collected cats. The collection refreshes on returning from the Arena, and audio preferences carry over to the next session.' },
+]
 const projectTags = ['React JS', 'Express JS', 'Prisma', 'PostgreSQL']
 
 const clinicScreenshotImages = [clinicDashboardImage, clinicPatientImage]
@@ -30,14 +40,14 @@ const entranceVariants = {
 const marqueeItems = [
   'React',
   'Express',
-  'Dashboard',
+  'Hono',
   'PostgreSQL',
   'Tailwind',
   'Prisma',
   'TypeScript',
-  'Laravel',
+  'CodeIgniter 4',
   'PHP',
-  'Kotlin',
+  'Next.js',
   'Flutter',
   'Dart',
   'JWT Auth',
@@ -47,9 +57,9 @@ const heroTechStack = [
   { label: 'React', icon: FaReact },
   { label: 'Express', icon: SiExpress },
   { label: 'PostgreSQL', icon: SiPostgresql },
-  { label: 'Laravel', icon: SiLaravel },
+  { label: 'CodeIgniter 4', icon: SiCodeigniter },
   { label: 'PHP', icon: SiPhp },
-  { label: 'Kotlin', icon: SiKotlin },
+  { label: 'Next.js', icon: SiNextdotjs },
   { label: 'Flutter', icon: SiFlutter },
   { label: 'Dart', icon: SiDart },
   { label: 'TypeScript', icon: SiTypescript },
@@ -58,22 +68,14 @@ const heroTechStack = [
 const translations = {
   en: {
     languageName: 'English', languageSwitcher: 'Choose language', skip: 'Skip to content', navLabel: 'Main navigation', mobileNavLabel: 'Mobile navigation', openNav: 'Open navigation', closeNav: 'Close navigation',
-    nav: { about: 'About', skills: 'Skills', experience: 'Experience', projects: 'Projects', contact: 'Contact' },
-    hero: { role: 'Full Stack Developer', description: "I'm a junior fullstack developer working with React, Express, and PostgreSQL. I build responsive interfaces and the APIs and databases that support them.", projects: 'My Projects', techStack: 'Technology stack' },
+    nav: { about: 'About', skills: 'Skills', projects: 'Projects', contact: 'Contact' },
+    hero: { role: 'Full Stack Developer', description: "I build web and mobile applications, from tracking product batches and managing project dependencies to collecting cats in a Flutter game.", projects: 'My Projects', techStack: 'Technology stack' },
     skills: {
-      title: 'My skills', intro: 'Technologies I use to build interfaces, APIs, and databases.', imageAlt: 'screenshot',
+      title: 'My skills', intro: 'Examples from my web and mobile projects.', exploreMore: 'Explore More',
       items: [
-        { title: 'Frontend Development', description: 'React, Vite, Tailwind CSS, Zustand, Axios, and responsive UI.' },
-        { title: 'Backend API', description: 'Express.js, TypeScript, REST API, JWT auth, and Zod validation.' },
-        { title: 'Database & Dashboard', description: 'PostgreSQL, Prisma ORM, relational modeling, search, and pagination.' },
-      ],
-    },
-    experience: {
-      title: 'Projects & education',
-      items: [
-        { company: 'ClinicApp', period: 'Fullstack Personal Project', role: 'Clinic Management System', detail: 'Built patient, doctor, registration, queue, consultation, invoice, and patient history workflows with React, Express, Prisma, and PostgreSQL.' },
-        { company: 'Mini E-Commerce Website', period: 'University Project', role: 'Laravel, PHP, MySQL, Bootstrap', detail: 'Built a responsive e-commerce website with authentication, product catalog, search and filters, inventory management, shopping cart, and an initial Figma design.' },
-        { company: 'Ciputra University', period: 'August 2024 - Present', role: 'Bachelor of Informatics', detail: 'Relevant coursework: Website Design and Software Design.' },
+        { title: 'Web Frontend', target: 'relay', description: 'Building task boards and milestone views with Next.js in Relay.' },
+        { title: 'Backend & Database', target: 'batch-tracer', description: 'Tracing batch movements and shipments with CodeIgniter 4 and PostgreSQL.' },
+        { title: 'Mobile', target: 'cat2catch', description: 'Managing collection updates and saved audio preferences in a Flutter game.' },
       ],
     },
     project: {
@@ -107,22 +109,14 @@ const translations = {
   },
   id: {
     languageName: 'Bahasa Indonesia', languageSwitcher: 'Pilih bahasa', skip: 'Lewati ke konten', navLabel: 'Navigasi utama', mobileNavLabel: 'Navigasi seluler', openNav: 'Buka navigasi', closeNav: 'Tutup navigasi',
-    nav: { about: 'Tentang', skills: 'Keahlian', experience: 'Pengalaman', projects: 'Proyek', contact: 'Kontak' },
-    hero: { role: 'Full Stack Developer', description: 'Saya junior fullstack developer yang menggunakan React, Express, dan PostgreSQL. Saya mengembangkan antarmuka responsif beserta API dan database yang mendukungnya.', projects: 'Proyek Saya', techStack: 'Teknologi yang digunakan' },
+    nav: { about: 'Tentang', skills: 'Keahlian', projects: 'Proyek', contact: 'Kontak' },
+    hero: { role: 'Full Stack Developer', description: 'Saya mengembangkan aplikasi web dan mobile, dari sistem pelacakan batch dan board proyek tim hingga game koleksi kucing.', projects: 'Proyek Saya', techStack: 'Teknologi yang digunakan' },
     skills: {
-      title: 'Keahlian saya', intro: 'Teknologi yang saya gunakan untuk mengembangkan antarmuka, API, dan database.', imageAlt: 'tangkapan layar',
+      title: 'Keahlian saya', intro: 'Penerapan keahlian saya dalam proyek web dan mobile.', exploreMore: 'Lihat proyek',
       items: [
-        { title: 'Pengembangan Frontend', description: 'React, Vite, Tailwind CSS, Zustand, Axios, dan antarmuka responsif.' },
-        { title: 'API Backend', description: 'Express.js, TypeScript, REST API, autentikasi JWT, dan validasi Zod.' },
-        { title: 'Database & Dashboard', description: 'PostgreSQL, Prisma ORM, pemodelan relasional, pencarian, dan paginasi.' },
-      ],
-    },
-    experience: {
-      title: 'Proyek & pendidikan',
-      items: [
-        { company: 'ClinicApp', period: 'Proyek Pribadi Fullstack', role: 'Sistem Manajemen Klinik', detail: 'Membangun alur pasien, dokter, pendaftaran, antrean, konsultasi, tagihan, dan riwayat pasien dengan React, Express, Prisma, dan PostgreSQL.' },
-        { company: 'Mini E-Commerce Website', period: 'Proyek Universitas', role: 'Laravel, PHP, MySQL, Bootstrap', detail: 'Membangun situs e-commerce responsif dengan autentikasi, katalog produk, pencarian dan filter, manajemen stok, keranjang belanja, serta rancangan awal di Figma.' },
-        { company: 'Ciputra University', period: 'Agustus 2024 - Sekarang', role: 'Sarjana Informatika', detail: 'Mata kuliah relevan: Desain Website dan Desain Perangkat Lunak.' },
+        { title: 'Frontend Web', target: 'relay', description: 'Membangun board tugas dan tampilan milestone dengan Next.js di Relay.' },
+        { title: 'Backend & Database', target: 'batch-tracer', description: 'Menelusuri perpindahan batch dan pengiriman dengan CodeIgniter 4 dan PostgreSQL.' },
+        { title: 'Mobile', target: 'cat2catch', description: 'Mengelola koleksi dan preferensi audio pemain di game Flutter.' },
       ],
     },
     project: {
@@ -199,12 +193,6 @@ function App() {
   const panRef = useRef(null)
   const menuRef = useRef(null)
   const menuButtonRef = useRef(null)
-  const experienceSectionRef = useRef(null)
-  const { scrollYProgress: experienceProgress } = useScroll({
-    target: experienceSectionRef,
-    offset: ['start end', 'start 0.3'],
-  })
-  const experienceScale = useTransform(experienceProgress, [0, 1], [0.9, 1])
   const closingSurfaceRef = useRef(null)
   const { scrollYProgress: footerProgress } = useScroll({
     target: closingSurfaceRef,
@@ -363,27 +351,21 @@ function App() {
             <div className="section-heading"><div><h2>{copy.skills.title}</h2></div><p>{copy.skills.intro}</p></div>
             <div className="skills-grid">
               {copy.skills.items.map((service, index) => {
-                return <article key={service.title} className="skill-card">
-                  <div className="skill-title-row"><h3>{service.title}</h3><span>0{index + 1}</span></div>
+                const Icon = skillIcons[index]
+                return <article key={service.title} className={`skill-card skill-card-${index + 1}`}>
+                  <div className="skill-card-heading">
+                    <h3>{service.title}</h3>
+                    <Icon className="skill-icon" aria-hidden="true" />
+                  </div>
                   <p>{service.description}</p>
-                  <img className="skill-image" src={serviceImages[index]} alt={`${service.title} ${copy.skills.imageAlt}`} loading="lazy" />
+                  <a className="skill-explore" href={`#${service.target}`}>
+                    <span>{copy.skills.exploreMore}</span>
+                    <ArrowRight size={16} aria-hidden="true" />
+                  </a>
                 </article>
               })}
             </div>
           </div>
-        </ContentSection>
-
-        <ContentSection ref={experienceSectionRef} id="about" className="section section-dark section-dark-left">
-          <motion.div className="page-container" style={{ scale: reduceMotion ? 1 : experienceScale, transformOrigin: 'center top' }}>
-            <div className="section-heading"><div><h2>{copy.experience.title}</h2></div></div>
-            <div className="experience-list">
-              {copy.experience.items.map((experience, index) => <article className="experience-row" key={experience.company}>
-                <span className="row-number">0{index + 1}</span>
-                <div className="experience-title"><h3>{experience.company}</h3><p>{experience.period}</p></div>
-                <div className="experience-detail"><h4>{experience.role}</h4><p>{experience.detail}</p></div>
-              </article>)}
-            </div>
-          </motion.div>
         </ContentSection>
 
         <ContentSection id="project" className="section section-muted">
@@ -447,6 +429,15 @@ function App() {
                 </figcaption>
               </motion.figure>
             </motion.article>
+            {additionalProjects.map(project => <article key={project.id} id={project.id} className="project-showcase extra-project">
+              <div className="project-details">
+                <h3>{project.name}</h3>
+                <p className="project-description">{language === 'id' ? project.idText : project.enText}</p>
+                <ul className="project-tags" aria-label={copy.project.stackLabel}>{project.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
+                {project.repo && <a className="text-link" href={project.repo} target="_blank" rel="noreferrer">{copy.interior.github}<ArrowUpRight size={18} /></a>}
+              </div>
+              <img src={project.image} loading="lazy" alt={project.name} />
+            </article>)}
           </div>
         </ContentSection>
 
