@@ -1,8 +1,10 @@
 import { cn } from '@/lib/utils'
+import { Slot } from '@radix-ui/react-slot'
 
-export function Card({ className, ...props }) {
+export function Card({ className, asChild = false, ...props }) {
+  const Component = asChild ? Slot : 'div'
   return (
-    <div
+    <Component
       data-slot="card"
       className={cn(
         'rounded-lg border border-border bg-card text-card-foreground shadow-sm',
