@@ -3,7 +3,7 @@ import { motion, useInView, useReducedMotion } from 'motion/react'
 
 export default function PuzzleReveal({ children, direction = 1, delay = 0 }) {
   const anchor = useRef(null)
-  const inView = useInView(anchor, { amount: .1, margin: '0px 0px -5% 0px' })
+  const inView = useInView(anchor, { amount: 'some' })
   const reduced = useReducedMotion()
 
   return <div ref={anchor} className="puzzle-anchor">
