@@ -12,6 +12,7 @@ const images = {
   relay: 'relay-',
   cat2catch: 'cat2catch-',
   atrium: 'atrium-interior-showcase-',
+  turntask: 'turntask-dashboard-',
 }
 const escapeHtml = value => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
 const template = await readFile(join(output, 'index.html'), 'utf8')
